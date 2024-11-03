@@ -6,16 +6,16 @@ from models import Usuarios, Proyectos
 from azure.cosmos import exceptions
 from datetime import datetime
 
-app = FastAPI(title='***API de Gestion de Proyectos y usuarios de sobre desarrollo de aplicaciones***')
+app = FastAPI(title='***API de Gestion de Proyectos y usuarios de desarrollo de aplicaciones***')
 
-###Endpoint de Eventos
+### Endpoint de Proyectos ### 
 
 @app.get("/")
 def home():
 	return "Hola Mundo Proyecto"
 
 
-### Crear usuario
+### Crear usuario ### 
 @app.post("/usuarios/",response_model=Usuarios,status_code=201)
 def crear_usuario(usuarios: Usuarios):
 	try:
@@ -26,7 +26,7 @@ def crear_usuario(usuarios: Usuarios):
 	except exceptions.CosmosHttpResponseError as e:
 		raise HTTPException(status_code=400, detail=str(e))
 
-### Obtener usuario por id
+### Obtener usuario por id ### 
 @app.get("/usuarios/{usuario_id}", response_model=Usuarios)
 def obtener_usuarios_por_ID(usuario_id: str= Path(...,description="ID del usuario a recuperar")):
 	try:
@@ -37,15 +37,15 @@ def obtener_usuarios_por_ID(usuario_id: str= Path(...,description="ID del usuari
 	except exceptions.CosmosHttpResponseError as e:
 		raise HTTPException(status_code=400, detail=str(e))
 
-
-### Listar usuarios
+### Listar usuarios ### 
 @app.get("/usuarios/", response_model=List[Usuarios])
 def listar_usuarios():
 	query="SELECT * FROM c WHERE 1=1"
 	items=list(usuarios_container.query_items(query=query,enable_cross_partition_query=True))
 	return items
 
-### Actualizar usuario
+
+### Actualizar usuario ### 
 
 @app.put("/usuarios/{usuario_id}",response_model=Usuarios)
 def actualizar_usuario(usuario_id: str, actualizar_usuario: Usuarios):
@@ -61,7 +61,7 @@ def actualizar_usuario(usuario_id: str, actualizar_usuario: Usuarios):
 	return existing_usuario
 
 
-### Eliminar usuario
+### Eliminar usuario ### 
 
 @app.delete("/usuarios/{id_usuario}")
 def eliminar_usuario(id_usuario: str):
@@ -79,7 +79,7 @@ def eliminar_usuario(id_usuario: str):
 	
 
 
- ### Crear proyecto
+ ### Crear proyecto ### 
 @app.post("/proyectos/",response_model=Proyectos,status_code=201)
 async def crear_proyecto(proyecto: Proyectos):
 	try:
@@ -96,10 +96,10 @@ async def crear_proyecto(proyecto: Proyectos):
 
 
 
-### Obtener proyecto por ID
+### Obtener proyecto ### 
 
 @app.get("/proyectos/{proyecto_id}", response_model=Proyectos)
-def obtener_proyectos_por_ID(proyecto_id: str= Path(...,description="ID del proyecto a recuperar")):
+def obtener_proyecto(proyecto_id: str= Path(...,description="ID del proyecto a recuperar")):
 	try:
 		proyecto=proyectos_container.read_item(item=proyecto_id,partition_key=proyecto_id)
 		return proyecto
@@ -110,7 +110,7 @@ def obtener_proyectos_por_ID(proyecto_id: str= Path(...,description="ID del proy
 
 
 
-### Obtener proyectos de usuario
+### Obtener proyectos de usuario ### 
 
 @app.get("/usuarios/{id_usuario}/proyectos")
 async def obtener_proyectos_usuario(id_usuario: str= Path(...,description="ID del usuario a recuperar sus proyectos")):
@@ -127,7 +127,7 @@ async def obtener_proyectos_usuario(id_usuario: str= Path(...,description="ID de
 
 
 
-### Listar proyectos
+### Listar proyectos ### 
 
 @app.get("/proyectos/", response_model=List[Proyectos])
 def listar_proyectos():
@@ -136,7 +136,7 @@ def listar_proyectos():
 	return items
 
 
-### Actualizar proyecto
+### Actualizar proyecto ### 
 @app.put("/proyectos/{proyecto_id}",response_model=Proyectos)
 def actualizar_proyecto(proyecto_id: str, actualizar_proyecto: Proyectos):
 	try:
@@ -156,7 +156,7 @@ def actualizar_proyecto(proyecto_id: str, actualizar_proyecto: Proyectos):
 
 
 
-### Eliminar proyecto
+### Eliminar proyecto ### 
 
 @app.delete("/proyectos/{proyecto_id}")
 def eliminar_proyecto(proyecto_id: str):

@@ -5,7 +5,7 @@ import os
 # Obtener las variables de entorno
 COSMOS_ENDPOINT = 'https://acdbefhdev.documents.azure.com:443/'
 COSMOS_KEY = 'cQ6mI8lnjcLi9lbKWjz82E0bVICDto8UNVO9UgAUY623tOn1D7yy4lcgAiI4qwtVSrVzXhNTJo6ZACDbn5Msng=='
-DATABASE_NAME = 'GestorProyectosDB'
+DATABASE_NAME = 'ProyectosDB'
 CONTAINER_NAME1 = 'Usuarios'
 CONTAINER_NAME2 = 'Proyectos'
 
