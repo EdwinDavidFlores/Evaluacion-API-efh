@@ -2,7 +2,7 @@ from azure.cosmos import CosmosClient, exceptions
 from dotenv import load_dotenv
 import os
 
-# Obtener las variables de entornos
+# Obtener las variables de entorno
 
 
 # Inicializar el cliente de Cosmos DB
